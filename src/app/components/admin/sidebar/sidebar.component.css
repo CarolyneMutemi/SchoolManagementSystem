@@ -1,0 +1,115 @@
+.sidebar-container {
+    height: 100vh;
+    width: 250px;
+    background-color: #2d2d2d;
+    color: #fff;
+    transition: all 0.3s ease;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 1px solid #3d3d3d;
+    z-index: 100;
+  }
+  
+  .sidebar-container.collapsed {
+    width: 60px;
+  }
+  
+  .toggle-btn {
+    position: absolute;
+    right: -12px;
+    top: 20px;
+    background: #4a4a4a;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #3d3d3d;
+    color: #fff;
+  }
+
+  .logo-section {
+    padding: 20px;
+    border-bottom: 1px solid #3d3d3d;
+  }
+
+  .logo-section h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #9c27b0;
+  }
+
+  .nav-items {
+    padding: 20px 0;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid transparent;
+    margin: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .nav-item:hover {
+    background-color: #3d3d3d;
+    border-color: #4a4a4a;
+  }
+
+  .nav-item.active {
+    background-color: #9c27b0;
+    border-color: #7b1fa2;
+  }
+
+  .nav-item i {
+    width: 20px;
+    text-align: center;
+    margin-right: 12px;
+  }
+
+  /* @media (max-width: 768px) {
+    .sidebar-container {
+      width: 60px;
+    }
+    
+    .sidebar-container:hover {
+      width: 250px;
+    }
+    
+    .sidebar-container:hover .nav-item span {
+      display: inline-block !important;
+    }
+  } */
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .sidebar-container {
+      width: 250px;
+    }
+  
+    .sidebar-container.collapsed {
+      width: 60px;
+      background-color: #2d2d2d;
+    }
+  
+    .sidebar-container.expanded {
+      background-color: rgba(45, 45, 45, 0.196);
+      backdrop-filter: blur(8px);
+    }
+  
+    /* Adjust nav items for better touch targets */
+    .nav-items {
+      padding: 20px 10px;
+    }
+  
+    .nav-item {
+      padding: 15px 20px;
+    }
+  }

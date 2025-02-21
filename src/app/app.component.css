@@ -1,0 +1,26 @@
+:host {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    flex: 1;
+    margin-left: 250px;
+    transition: all 0.3s ease;
+    min-height: 100vh;
+    width: calc(100% - 250px);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .main-content.sidebar-collapsed {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 60px;
+      width: calc(100% - 60px);
+    }
+}

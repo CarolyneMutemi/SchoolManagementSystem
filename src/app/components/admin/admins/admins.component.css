@@ -1,0 +1,194 @@
+.admin-container {
+    padding: 24px;
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    color: #fff;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .header h1 {
+    color: #9c27b0;
+    margin: 0;
+  }
+  
+  .add-btn {
+    background-color: #9c27b0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .add-btn:hover {
+    background-color: #7b1fa2;
+  }
+  
+  /* Table Styles */
+  .table-container {
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #3d3d3d;
+  }
+  
+  th {
+    background-color: #3d3d3d;
+    color: #fff;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .edit-btn {
+    color: #9c27b0;
+  }
+  
+  .delete-btn {
+    color: #f44336;
+  }
+  
+  /* Card Styles (Mobile) */
+  .card-container {
+    display: none;
+    gap: 16px;
+    flex-direction: column;
+  }
+  
+  .admin-card {
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    color: #9c27b0;
+  }
+  
+  .card-details p {
+    margin: 8px 0;
+  }
+  
+  /* Modal Styles */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #2d2d2d;
+    padding: 24px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+  }
+  
+  .modal-content h2 {
+    color: #9c27b0;
+    margin-top: 0;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #3d3d3d;
+    background-color: #1a1a1a;
+    color: #fff;
+    border-radius: 4px;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .cancel-btn {
+    background-color: transparent;
+    border: 1px solid #3d3d3d;
+    color: #fff;
+  }
+  
+  .save-btn {
+    background-color: #9c27b0;
+    color: white;
+  }
+  
+  .cancel-btn, .save-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-btn:disabled {
+    background-color: #4a4a4a;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .table-container {
+      display: none;
+    }
+  
+    .card-container {
+      display: flex;
+    }
+  }

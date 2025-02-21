@@ -1,0 +1,151 @@
+<div class="page-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <h2>Teachers</h2>
+    <button class="btn-primary" (click)="showTeacherModal = !showTeacherModal">
+      <i class="fas fa-plus"></i> Add Teacher
+    </button>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="search-filter-container">
+    <div class="search-box">
+      <i class="fas fa-search search-icon"></i>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery"
+        (input)="searchTeachers()"
+        placeholder="Search teachers..."
+      >
+    </div>
+    <div class="filter-dropdown">
+      <button class="btn-filter" (click)="toggleFilterDropdown()">
+        <i class="fas fa-filter"></i>
+        Subject
+      </button>
+      <div class="dropdown-content" *ngIf="showFilterDropdown">
+        <label *ngFor="let subject of availableSubjects">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="subjectFilters[subject]"
+            (change)="filterTeachers()"
+          > {{subject}}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teachers Table -->
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subjects</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let teacher of filteredTeachers">
+          <td>
+            <div class="teacher-info">
+              <span>{{teacher.firstName}} {{teacher.lastName}}</span>
+              <small class="teacher-id">ID: {{teacher.nationalId}}</small>
+            </div>
+          </td>
+          <td>{{teacher.email}}</td>
+          <td>
+            <div class="subjects-container">
+              <span class="status-badge" *ngFor="let subject of teacher.subjects">
+                {{subject}}
+              </span>
+            </div>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-icon" (click)="editTeacher(teacher)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-icon" (click)="confirmDelete(teacher)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add/Edit Teacher Modal -->
+<div class="modal" *ngIf="showTeacherModal">
+  <div class="modal-content modal-lg">
+    <h3>{{editingTeacher ? 'Edit' : 'Add'}} Teacher</h3>
+    <form [formGroup]="teacherForm" (ngSubmit)="saveTeacher()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" formControlName="firstName">
+          <div class="error" *ngIf="teacherForm.get('firstName')?.touched && teacherForm.get('firstName')?.invalid">
+            First name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" formControlName="lastName">
+          <div class="error" *ngIf="teacherForm.get('lastName')?.touched && teacherForm.get('lastName')?.invalid">
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>National ID</label>
+          <input type="text" formControlName="nationalId">
+          <div class="error" *ngIf="teacherForm.get('nationalId')?.touched && teacherForm.get('nationalId')?.invalid">
+            Valid National ID is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email">
+          <div class="error" *ngIf="teacherForm.get('email')?.touched && teacherForm.get('email')?.invalid">
+            Valid email is required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Subjects</label>
+        <app-subject-multiselect
+          [items]="availableSubjects"
+          formControlName="subjects">
+        </app-subject-multiselect>
+        <div class="error" *ngIf="teacherForm.get('subjects')?.touched && teacherForm.get('subjects')?.invalid">
+          Please select at least one subject
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeTeacherModal()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="teacherForm.invalid">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="showDeleteModal">
+  <div class="modal-content">
+    <h3>Confirm Delete</h3>
+    <p>Are you sure you want to delete this teacher?</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+      <button class="btn-danger" (click)="deleteTeacher()">Delete</button>
+    </div>
+  </div>
+</div>

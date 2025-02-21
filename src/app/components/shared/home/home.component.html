@@ -1,0 +1,153 @@
+<!-- home.component.html -->
+<div class="dashboard-container">
+    <!-- Summary Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Total Students</h3>
+          <p class="stat-value">1,234</p>
+          <p class="stat-change positive">
+            <i class="fas fa-arrow-up"></i> 5.2% from last term
+          </p>
+        </div>
+      </div>
+  
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Teachers</h3>
+          <p class="stat-value">45</p>
+          <p class="stat-change">
+            <i class="fas fa-equals"></i> No change
+          </p>
+        </div>
+      </div>
+  
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Administrators</h3>
+          <p class="stat-value">8</p>
+          <p class="stat-change positive">
+            <i class="fas fa-arrow-up"></i> New admin added
+          </p>
+        </div>
+      </div>
+  
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Average GPA</h3>
+          <p class="stat-value">7.2</p>
+          <p class="stat-change positive">
+            <i class="fas fa-arrow-up"></i> 0.3 from last term
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Performance Chart -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <h2>
+          <i class="fas fa-chart-line"></i>
+          Mean Grade Points Trend
+        </h2>
+        <div class="chart-controls">
+          <select class="term-selector">
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+        </div>
+      </div>
+      <div class="chart-content">
+        <!-- This div will hold the chart -->
+        <canvas id="performanceChart"></canvas>
+      </div>
+    </div>
+  
+    <!-- Form-wise Performance Cards -->
+    <div class="forms-grid">
+      <div class="form-card">
+        <h3>Form 1</h3>
+        <div class="form-stats">
+          <div class="stat-item">
+            <span class="label">Students</span>
+            <span class="value">320</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Mean Grade</span>
+            <span class="value">7.5</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Attendance</span>
+            <span class="value">95%</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Repeat for Forms 2-4 -->
+      <div class="form-card">
+        <h3>Form 2</h3>
+        <div class="form-stats">
+          <div class="stat-item">
+            <span class="label">Students</span>
+            <span class="value">308</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Mean Grade</span>
+            <span class="value">7.2</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Attendance</span>
+            <span class="value">93%</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-card">
+        <h3>Form 3</h3>
+        <div class="form-stats">
+          <div class="stat-item">
+            <span class="label">Students</span>
+            <span class="value">315</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Mean Grade</span>
+            <span class="value">6.9</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Attendance</span>
+            <span class="value">91%</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-card">
+        <h3>Form 4</h3>
+        <div class="form-stats">
+          <div class="stat-item">
+            <span class="label">Students</span>
+            <span class="value">291</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Mean Grade</span>
+            <span class="value">7.8</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Attendance</span>
+            <span class="value">96%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

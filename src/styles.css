@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #2e2e2e;
+  }
+
+  :root {
+    --primary-color: #6b46c1;
+    --primary-hover: #805ad5;
+    --danger-color: #e53e3e;
+    --bg-dark: #1a202c;
+    --bg-darker: #171923;
+    --text-light: #e2e8f0;
+    --text-muted: #a0aec0;
+    --border-color: #4b5669;
+    --modal-bg: #2d3748;
+  }
