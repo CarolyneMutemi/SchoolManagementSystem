@@ -14,6 +14,7 @@ import { StreamsComponent } from './components/shared/academic-reports/streams/s
 import { TeachersComponent } from './components/admin/teachers/teachers.component';
 import { SubjectMultiselectComponent } from './components/admin/teachers/subject-multiselect/subject-multiselect.component';
 import { AdminsComponent } from './components/admin/admins/admins.component';
+import { StudentsComponent } from './components/admin/students/students.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AdminsComponent } from './components/admin/admins/admins.component';
     StreamsComponent,
     TeachersComponent,
     SubjectMultiselectComponent,
-    AdminsComponent
+    AdminsComponent,
+    StudentsComponent
   ],
   imports: [
     BrowserModule,

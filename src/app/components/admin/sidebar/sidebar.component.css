@@ -74,20 +74,6 @@
     margin-right: 12px;
   }
 
-  /* @media (max-width: 768px) {
-    .sidebar-container {
-      width: 60px;
-    }
-    
-    .sidebar-container:hover {
-      width: 250px;
-    }
-    
-    .sidebar-container:hover .nav-item span {
-      display: inline-block !important;
-    }
-  } */
-
   /* Mobile Styles */
   @media (max-width: 768px) {
     .sidebar-container {

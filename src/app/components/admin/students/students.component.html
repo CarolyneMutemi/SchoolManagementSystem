@@ -1,0 +1,146 @@
+<div class="student-container">
+    <div class="header">
+      <h1>Students Directory</h1>
+      <div class="filters-container">
+        <!-- Search Input -->
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (ngModelChange)="applyFilters()"
+            placeholder="Search by name or admission number...">
+        </div>
+  
+        <!-- Filter Dropdowns -->
+        <div class="filter-dropdowns">
+          <select [(ngModel)]="selectedForm" (ngModelChange)="applyFilters()">
+            <option [ngValue]="null">All Forms</option>
+            <option *ngFor="let form of forms" [value]="form">
+              Form {{form}}
+            </option>
+          </select>
+  
+          <select [(ngModel)]="selectedStream" (ngModelChange)="applyFilters()">
+            <option [ngValue]="null">All Streams</option>
+            <option *ngFor="let stream of streams" [value]="stream">
+              Stream {{stream}}
+            </option>
+          </select>
+  
+          <button class="clear-btn" (click)="clearFilters()" 
+                  [class.visible]="selectedForm || selectedStream || searchTerm">
+            <i class="fas fa-times"></i> Clear Filters
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Table View (Desktop) -->
+    <div class="table-container">
+      <table *ngIf="filteredStudents.length > 0">
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Admission No.</th>
+            <th>Name</th>
+            <th>Form</th>
+            <th>Stream</th>
+            <th>Enrollment Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of filteredStudents">
+            <!-- <td>
+              <img [src]="student.imageUrl" alt="student photo" class="student-photo">
+            </td> -->
+            <td>{{student.admissionNumber}}</td>
+            <td>{{student.firstName}} {{student.lastName}}</td>
+            <td>Form {{student.form}}</td>
+            <td>Stream {{student.stream}}</td>
+            <td>{{formatDate(student.enrollmentDate)}}</td>
+            <td>
+              <button class="view-btn" (click)="viewStudentDetails(student)">
+                <i class="fas fa-eye"></i> View
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="filteredStudents.length === 0" class="no-results">
+        No students found matching the current filters
+      </div>
+    </div>
+  
+    <!-- Card View (Mobile) -->
+    <div class="card-container">
+      <div class="student-card" *ngFor="let student of filteredStudents">
+        <div class="card-content">
+          <!-- <img [src]="student.imageUrl" alt="student photo" class="student-photo"> -->
+          <div class="student-info">
+            <h3>{{student.firstName}} {{student.lastName}}</h3>
+            <p class="admission-number">{{student.admissionNumber}}</p>
+            <div class="class-info">
+              <span class="form-badge">Form {{student.form}}</span>
+              <span class="stream-badge">Stream {{student.stream}}</span>
+            </div>
+            <button class="view-btn mobile-view-btn" (click)="viewStudentDetails(student)">
+              <i class="fas fa-eye"></i> View Details
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="filteredStudents.length === 0" class="no-results">
+        No students found matching the current filters
+      </div>
+    </div>
+  
+    <!-- Student Details Modal -->
+    <div class="modal" *ngIf="showDetails" (click)="closeDetails()">
+      <div class="modal-content details-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Student Details</h2>
+          <button class="close-btn" (click)="closeDetails()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+  
+        <div class="student-details" *ngIf="selectedStudent">
+          <div class="profile-section">
+            <!-- <img [src]="selectedStudent.imageUrl" alt="student photo" class="large-photo"> -->
+            <div class="basic-info">
+              <h3>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</h3>
+              <p class="admission-number">{{selectedStudent.admissionNumber}}</p>
+              <div class="class-info">
+                <span class="form-badge">Form {{selectedStudent.form}}</span>
+                <span class="stream-badge">Stream {{selectedStudent.stream}}</span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="details-grid">
+            <div class="detail-group">
+              <h4>Personal Information</h4>
+              <p><strong>Date of Birth:</strong> {{formatDate(selectedStudent.dateOfBirth)}}</p>
+              <p><strong>Enrollment Date:</strong> {{formatDate(selectedStudent.enrollmentDate)}}</p>
+              <p><strong>Address:</strong> {{selectedStudent.address}}</p>
+              <p><strong>Phone:</strong> {{selectedStudent.phoneNumber || 'Not provided'}}</p>
+              <p><strong>Email:</strong> {{selectedStudent.email || 'Not provided'}}</p>
+            </div>
+  
+            <div class="detail-group">
+              <h4>Parents/Guardian Information</h4>
+              <div class="parent-info" *ngFor="let parent of selectedStudent.parents">
+                <h5>{{parent.relationship}}</h5>
+                <p><strong>Name:</strong> {{parent.name}}</p>
+                <p><strong>Phone:</strong> {{parent.phoneNumber}}</p>
+                <p><strong>Email:</strong> {{parent.email || 'Not provided'}}</p>
+                <p><strong>Address:</strong> {{parent.address}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
