@@ -1,151 +1,302 @@
-<div class="page-container">
-  <!-- Header Section -->
-  <div class="page-header">
-    <h2>Teachers</h2>
-    <button class="btn-primary" (click)="showTeacherModal = !showTeacherModal">
-      <i class="fas fa-plus"></i> Add Teacher
+<!-- teachers.component.html -->
+<div class="container">
+  <div class="header">
+    <h1>Teachers Management</h1>
+    <button class="btn-primary" (click)="openModal()">
+      <i class="fas fa-plus"></i> Add New Teacher
     </button>
   </div>
 
-  <!-- Search and Filter Section -->
-  <div class="search-filter-container">
+  <div class="filters">
     <div class="search-box">
-      <i class="fas fa-search search-icon"></i>
+      <i class="fas fa-search"></i>
       <input 
         type="text" 
-        [(ngModel)]="searchQuery"
-        (input)="searchTeachers()"
+        [(ngModel)]="searchTerm" 
         placeholder="Search teachers..."
       >
     </div>
-    <div class="filter-dropdown">
-      <button class="btn-filter" (click)="toggleFilterDropdown()">
-        <i class="fas fa-filter"></i>
-        Subject
-      </button>
-      <div class="dropdown-content" *ngIf="showFilterDropdown">
-        <label *ngFor="let subject of availableSubjects">
-          <input 
-            type="checkbox" 
-            [(ngModel)]="subjectFilters[subject]"
-            (change)="filterTeachers()"
-          > {{subject}}
-        </label>
+    
+    <select [(ngModel)]="selectedSubjectFilter" class="subjects-select">
+      <option value="">All Subjects</option>
+      <option *ngFor="let subject of subjects" [value]="subject">
+        {{subject}}
+      </option>
+    </select>
+  </div>
+
+  <!-- Desktop View -->
+  <table class="teachers-table">
+    <thead>
+      <tr>
+        <th>Teacher Info</th>
+        <th>Contact</th>
+        <th>Qualified Subjects</th>
+        <th>Teaching Assignments</th>
+        <th>Class Teacher</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let teacher of filteredTeachers">
+        <td>
+          <div class="teacher-info">
+            <div class="teacher-name">{{teacher.firstName}} {{teacher.lastName}}</div>
+            <div class="teacher-id">
+              <!-- <i class="fas fa-id-badge"></i> {{teacher.teacherId}} -->
+            <div><i class="fas fa-id-card"></i> {{teacher.nationalId}}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="contact-info">
+            <div><i class="fas fa-envelope"></i> {{teacher.email}}</div>
+            <div><i class="fas fa-phone"></i> {{teacher.phoneNumber}}</div>
+          </div>
+        </td>
+        <td>
+          <div class="qualified-subjects">
+            <span class="subject-tag" *ngFor="let subject of teacher.qualifiedSubjects">
+              {{subject}}
+            </span>
+          </div>
+        </td>
+        <td>
+          <div class="teaching-assignments">
+            <div *ngFor="let assignment of teacher.teachingAssignments" class="assignment-item">
+              <div class="class-stream">{{assignment.class}} {{assignment.stream}}</div>
+              <div class="assignment-subjects">
+                <span class="subject-tag small" *ngFor="let subject of assignment.subjects">
+                  {{subject}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span *ngIf="teacher.isClassTeacher" class="class-teacher-badge">
+            {{teacher.classTeacherOf?.class}} {{teacher.classTeacherOf?.stream}}
+          </span>
+        </td>
+        <td class="actions">
+          <button class="btn-icon" (click)="openModal(teacher)" title="Edit">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-icon delete" (click)="deleteTeacher(teacher.id)" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Mobile View -->
+  <div class="teacher-cards">
+    <div class="teacher-card" *ngFor="let teacher of filteredTeachers">
+      <div class="card-header">
+        <div class="teacher-info">
+          <h3>{{teacher.firstName}} {{teacher.lastName}}</h3>
+          <div class="teacher-id">
+            <i class="fas fa-id-badge"></i> {{teacher.teacherId}}
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-icon" (click)="openModal(teacher)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-icon delete" (click)="deleteTeacher(teacher.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="contact-info">
+          <div><i class="fas fa-envelope"></i> {{teacher.email}}</div>
+          <div><i class="fas fa-phone"></i> {{teacher.phoneNumber}}</div>
+          <div><i class="fas fa-id-card"></i> {{teacher.nationalId}}</div>
+        </div>
+
+        <div class="card-section">
+          <h4>Qualified to Teach</h4>
+          <div class="qualified-subjects">
+            <span class="subject-tag" *ngFor="let subject of teacher.qualifiedSubjects">
+              {{subject}}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <h4>Teaching Assignments</h4>
+          <div class="teaching-assignments">
+            <div *ngFor="let assignment of teacher.teachingAssignments" class="assignment-item">
+              <div class="class-stream">Form {{assignment.class}} {{assignment.stream}}</div>
+              <div class="assignment-subjects">
+                <span class="subject-tag small" *ngFor="let subject of assignment.subjects">
+                  {{subject}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="teacher.isClassTeacher" class="card-section">
+          <h4>Class Teacher of</h4>
+          <span class="class-teacher-badge">
+            Form {{teacher.classTeacherOf?.class}} {{teacher.classTeacherOf?.stream}}
+          </span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Teachers Table -->
-  <div class="table-container">
-    <table class="custom-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Subjects</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let teacher of filteredTeachers">
-          <td>
-            <div class="teacher-info">
-              <span>{{teacher.firstName}} {{teacher.lastName}}</span>
-              <small class="teacher-id">ID: {{teacher.nationalId}}</small>
+  <!-- Modal Form -->
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{editingTeacher ? 'Edit' : 'Add'}} Teacher</h2>
+        <button class="btn-icon" (click)="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form [formGroup]="teacherForm" (ngSubmit)="saveTeacher()">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" formControlName="firstName">
+          </div>
+          
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" formControlName="lastName">
+          </div>
+
+          <div class="form-group">
+            <label>Teacher ID</label>
+            <input type="text" formControlName="teacherId">
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" formControlName="email">
+          </div>
+
+          <div class="form-group">
+            <label>National ID</label>
+            <input type="text" formControlName="nationalId">
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" formControlName="phoneNumber">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Qualified Subjects</label>
+          <select multiple formControlName="qualifiedSubjects" class="subjects-select">
+            <option *ngFor="let subject of subjects" [value]="subject">
+              {{subject}}
+            </option>
+          </select>
+          <small class="help-text">Hold Ctrl/Cmd to select multiple subjects</small>
+        </div>
+
+        <div class="teaching-assignments-form">
+          <div class="section-header">
+            <h3>Teaching Assignments</h3>
+            <button type="button" class="btn-secondary small" (click)="addTeachingAssignment()">
+              <i class="fas fa-plus"></i> Add Assignment
+            </button>
+          </div>
+
+          <div formArrayName="teachingAssignments" class="assignments-list">
+            <div *ngFor="let assignment of teachingAssignments.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="assignment-form">
+              <div class="assignment-header">
+                <h4>Assignment {{i + 1}}</h4>
+                <button type="button" class="btn-icon delete" (click)="removeTeachingAssignment(i)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Class</label>
+                  <select formControlName="class">
+                    <option value="">Select Class</option>
+                    <option *ngFor="let class of classes" [value]="class">
+                      {{class}}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Stream</label>
+                  <select formControlName="stream">
+                    <option value="">Select Stream</option>
+                    <option *ngFor="let stream of streams" [value]="stream">
+                      Stream {{stream}}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Subjects</label>
+                  <select multiple formControlName="subjects" class="subjects-select">
+                    <option *ngFor="let subject of subjects" [value]="subject">
+                      {{subject}}
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </td>
-          <td>{{teacher.email}}</td>
-          <td>
-            <div class="subjects-container">
-              <span class="status-badge" *ngFor="let subject of teacher.subjects">
-                {{subject}}
-              </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="isClassTeacher">
+            Is Class Teacher?
+          </label>
+        </div>
+
+        <div class="form-group" *ngIf="teacherForm.get('isClassTeacher')?.value">
+          <div formGroupName="classTeacherOf">
+            <h4>Class Teacher Of</h4>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Class</label>
+                <select formControlName="class">
+                  <option value="">Select Class</option>
+                  <option *ngFor="let class of classes" [value]="class">
+                    {{class}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Stream</label>
+                <select formControlName="stream">
+                  <option value="">Select Stream</option>
+                  <option *ngFor="let stream of streams" [value]="stream">
+                    Stream {{stream}}
+                  </option>
+                </select>
+              </div>
             </div>
-          </td>
-          <td>
-            <div class="action-buttons">
-              <button class="btn-icon" (click)="editTeacher(teacher)">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn-icon" (click)="confirmDelete(teacher)">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Add/Edit Teacher Modal -->
-<div class="modal" *ngIf="showTeacherModal">
-  <div class="modal-content modal-lg">
-    <h3>{{editingTeacher ? 'Edit' : 'Add'}} Teacher</h3>
-    <form [formGroup]="teacherForm" (ngSubmit)="saveTeacher()">
-      <div class="form-row">
-        <div class="form-group">
-          <label>First Name</label>
-          <input type="text" formControlName="firstName">
-          <div class="error" *ngIf="teacherForm.get('firstName')?.touched && teacherForm.get('firstName')?.invalid">
-            First name is required
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" formControlName="lastName">
-          <div class="error" *ngIf="teacherForm.get('lastName')?.touched && teacherForm.get('lastName')?.invalid">
-            Last name is required
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">
+            {{editingTeacher ? 'Update' : 'Add'}} Teacher
+          </button>
         </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>National ID</label>
-          <input type="text" formControlName="nationalId">
-          <div class="error" *ngIf="teacherForm.get('nationalId')?.touched && teacherForm.get('nationalId')?.invalid">
-            Valid National ID is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" formControlName="email">
-          <div class="error" *ngIf="teacherForm.get('email')?.touched && teacherForm.get('email')?.invalid">
-            Valid email is required
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Subjects</label>
-        <app-subject-multiselect
-          [items]="availableSubjects"
-          formControlName="subjects">
-        </app-subject-multiselect>
-        <div class="error" *ngIf="teacherForm.get('subjects')?.touched && teacherForm.get('subjects')?.invalid">
-          Please select at least one subject
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" (click)="closeTeacherModal()">Cancel</button>
-        <button type="submit" class="btn-primary" [disabled]="teacherForm.invalid">Save</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal" *ngIf="showDeleteModal">
-  <div class="modal-content">
-    <h3>Confirm Delete</h3>
-    <p>Are you sure you want to delete this teacher?</p>
-    <div class="modal-actions">
-      <button class="btn-secondary" (click)="closeDeleteModal()">Cancel</button>
-      <button class="btn-danger" (click)="deleteTeacher()">Delete</button>
+      </form>
     </div>
   </div>
 </div>

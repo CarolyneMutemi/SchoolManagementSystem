@@ -1,9 +1,13 @@
-// teachers.interface.ts
 export interface Teacher {
-  nationalId: string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
-  subjects: string[];
-  dateJoined?: Date;
+  phoneNumber: string;
+  qualifiedSubjects: string[];
+  assignments: {
+    class: string;
+    subject: string;
+  }[];
+  classTeacherOf?: string;
 }

@@ -7,12 +7,23 @@ body {
 
   :root {
     --primary-color: #6b46c1;
-    --primary-hover: #805ad5;
+    --primary-hover: #553c9a;
     --danger-color: #e53e3e;
-    --bg-dark: #1a202c;
-    --bg-darker: #171923;
-    --text-light: #e2e8f0;
-    --text-muted: #a0aec0;
-    --border-color: #4b5669;
-    --modal-bg: #2d3748;
+    --danger-hover: #c53030;
+    --bg-color: #1a202c;
+    --secondary-bg: #2d3748;
+    --text-color: #fff;
+    --text-secondary: #cbd5e0;
+    --border-color: #4a5568;
+    --success-color: #38a169;
+    --primary: #8b5cf6;
+    --primary-dark: #7c3aed;
+    --background: #1e1e1e;
+    --surface: #2d2d2d;
+    --border: #374151;
+    --text: #ffffff;
+    --text-secondary: #9ca3af;
+    --danger: #ef4444;
+    --success: #10b981;
+    --info: #3b82f6;
   }

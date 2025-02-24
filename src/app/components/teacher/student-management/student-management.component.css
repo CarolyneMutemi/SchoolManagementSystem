@@ -5,13 +5,43 @@
     color: #fff;
   }
   
+  /* Header Section */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+
   .header {
     margin-bottom: 24px;
   }
   
   .header h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
     color: #9c27b0;
     margin: 0 0 20px 0;
+  }
+  
+  .add-btn {
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+  }
+  
+  .add-btn:hover {
+    background-color: var(--primary-dark);
   }
   
   /* Filters Section */
@@ -127,6 +157,35 @@
   .view-btn:hover {
     background-color: #7b1fa2;
   }
+
+  /* Action Buttons */
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .action-btn {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    color: var(--text);
+    transition: opacity 0.2s;
+    min-width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .action-btn:hover {
+    opacity: 0.9;
+  }
+  
+  .action-btn.view { background-color: var(--info); }
+  .action-btn.edit { background-color: var(--primary); }
+  .action-btn.delete { background-color: var(--danger); }
+  .action-btn.reset { background-color: var(--success); }
   
   /* Card Styles (Mobile) */
   .card-container {
@@ -146,6 +205,13 @@
     padding: 16px;
     gap: 16px;
     align-items: center;
+  }
+
+  .card-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
   }
   
   .student-info {
@@ -529,3 +595,123 @@
     padding: 16px;
   }
 }
+
+
+/* Form Styles */
+.form-section {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .form-section h3 {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background-color: var(--background);
+    color: var(--text);
+    box-sizing: border-box;
+  }
+  
+  /* Modal Footer */
+  .modal-footer {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  
+  .submit-btn,
+  .cancel-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    min-width: 100px;
+  }
+  
+  .submit-btn {
+    background-color: var(--primary);
+    color: var(--text);
+  }
+  
+  .cancel-btn {
+    background-color: var(--border);
+    color: var(--text);
+  }
+  
+  /* Details Modal Specific */
+  .details-modal {
+    max-width: 900px;
+  }
+  
+  .profile-section {
+    display: flex;
+    gap: 2rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  
+  .large-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+  }
+  
+  .basic-info {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .class-info {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .form-badge,
+  .stream-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+  }
+  
+  .form-badge { background-color: var(--primary); }
+  .stream-badge { background-color: var(--info); }
+  
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1.5rem;
+  }

@@ -1,4 +1,5 @@
-<app-sidebar *ngIf="!isRoute('/login')" (toggleSidebar)="onSidebarToggle($event)"></app-sidebar>
+<app-sidebar *ngIf="!isRoute('/login') && userRole === 'admin'" (toggleSidebar)="onSidebarToggle($event)"></app-sidebar>
+<app-teacher-sidebar *ngIf="!isRoute('/login') && userRole === 'teacher'" (toggleSidebar)="onSidebarToggle($event)"></app-teacher-sidebar>
 <div class="main-content"
      [class.sidebar-collapsed]="sidebarCollapsed"
      [class.sidebar-expanded]="!sidebarCollapsed">

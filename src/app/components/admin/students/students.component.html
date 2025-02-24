@@ -41,7 +41,7 @@
       <table *ngIf="filteredStudents.length > 0">
         <thead>
           <tr>
-            <th>Photo</th>
+            <!-- <th>Photo</th> -->
             <th>Admission No.</th>
             <th>Name</th>
             <th>Form</th>
@@ -72,29 +72,35 @@
         No students found matching the current filters
       </div>
     </div>
-  
+
     <!-- Card View (Mobile) -->
-    <div class="card-container">
-      <div class="student-card" *ngFor="let student of filteredStudents">
-        <div class="card-content">
-          <!-- <img [src]="student.imageUrl" alt="student photo" class="student-photo"> -->
-          <div class="student-info">
-            <h3>{{student.firstName}} {{student.lastName}}</h3>
-            <p class="admission-number">{{student.admissionNumber}}</p>
-            <div class="class-info">
-              <span class="form-badge">Form {{student.form}}</span>
-              <span class="stream-badge">Stream {{student.stream}}</span>
-            </div>
-            <button class="view-btn mobile-view-btn" (click)="viewStudentDetails(student)">
-              <i class="fas fa-eye"></i> View Details
-            </button>
-          </div>
+<div class="card-container">
+  <div class="student-card" *ngFor="let student of filteredStudents">
+    <div class="card-content">
+      <div class="student-info">
+        <h3>{{student.firstName}} {{student.lastName}}</h3>
+        <p class="admission-number">{{student.admissionNumber}}</p>
+        <div class="class-info">
+          <span class="form-badge">Form {{student.form}}</span>
+          <span class="stream-badge">Stream {{student.stream}}</span>
         </div>
-      </div>
-      <div *ngIf="filteredStudents.length === 0" class="no-results">
-        No students found matching the current filters
+        
+        <div class="info-row">
+          <span class="info-label">Admission No.</span>
+          <span class="info-value">{{student.admissionNumber}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Enrollment Date</span>
+          <span class="info-value">{{formatDate(student.enrollmentDate)}}</span>
+        </div>
+        
+        <button class="mobile-view-btn" (click)="viewStudentDetails(student)">
+          <i class="fas fa-eye"></i> View Details
+        </button>
       </div>
     </div>
+  </div>
+</div>
   
     <!-- Student Details Modal -->
     <div class="modal" *ngIf="showDetails" (click)="closeDetails()">

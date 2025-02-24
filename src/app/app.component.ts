@@ -11,8 +11,11 @@ import { SidebarComponent } from './components/admin/sidebar/sidebar.component';
 export class AppComponent {
   title = 'App';
   @ViewChild(SidebarComponent) sidebar!: SidebarComponent;
+  userRole: string = "teacher";
   
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    // this.userRole = this.authService.getUserRole();
+  }
 
   sidebarCollapsed = true;
   isMobile = window.innerWidth <= 768;
@@ -22,12 +25,10 @@ export class AppComponent {
   onDocumentClick(event: MouseEvent) {
     // Get the clicked element
     const target = event.target as HTMLElement;
-    console.log("Clicked", target);
     
     // Check if click is outside sidebar and not on toggle button
     if (!target.closest('.sidebar-container') && 
         !target.closest('.toggle-btn')) {
-          console.log("Clicked outside sidebar");
       if (this.sidebar && this.sidebar.toggleSidebar) {
         this.sidebar.isCollapsed = true;
         this.sidebar.toggleSidebar.emit(this.sidebar.isCollapsed);
@@ -45,8 +46,6 @@ export class AppComponent {
   }
 
   isRoute(route: string) {
-    console.log("Route", route);
-    console.log("Current Route", this.router.url);
     return this.router.url === route;
   }
 }

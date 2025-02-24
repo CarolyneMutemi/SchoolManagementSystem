@@ -31,8 +31,25 @@ export class TeachersService {
         lastName: "Mutemi",
         nationalId: "12345678",
         email: "monicahmutemi@gmail.com",
-        subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "English", "History", "Geography", "Computer Science"],
-        dateJoined: new Date('2022-09-01')
+        phoneNumber: "0712345678",
+        subjects: [{ name: "Mathematics", code: "MAT" }, { name: "Physics", code: "PHY" }],
+        dateJoined: new Date('2022-09-01'),
+        assignedClasses: [
+          {
+            class: "Form 1",
+            stream: "A",
+            subject: "Mathematics"
+          },
+          {
+            class: "Form 2",
+            stream: "B",
+            subject: "Physics"
+          }
+        ],
+        classTeacherOf: {
+          class: "Form 1",
+          stream: "A"
+        }
       },
       {
         id: "462805",
@@ -40,8 +57,25 @@ export class TeachersService {
         lastName: "Muthoni",
         nationalId: "12345678",
         email: "sharonmuthoni@gmail.com",
-        subjects: ["English", "Swahili"],
-        dateJoined: new Date('2022-09-01')
+        phoneNumber: "0712345678",
+        subjects: [{ name: "English", code: "ENG" }, { name: "Swahili", code: "SWA" }],
+        dateJoined: new Date('2022-09-01'),
+        assignedClasses: [
+          {
+            class: "Form 1",
+            stream: "B",
+            subject: "English"
+          },
+          {
+            class: "Form 2",
+            stream: "C",
+            subject: "Swahili"
+          }
+        ],
+        classTeacherOf: {
+          class: "Form 1",
+          stream: "B"
+        }
       }
     ]
     return teachers;

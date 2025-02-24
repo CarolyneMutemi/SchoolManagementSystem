@@ -1,4 +1,4 @@
-<div class="multiselect-container" [class.focused]="isOpen">
+<div class="multiselect-container" [class.focused]="dropDownisOpen">
     <div class="selected-items">
       <div class="selected-badges">
         <span class="badge" *ngFor="let item of selectedItems">
@@ -11,15 +11,15 @@
         type="text"
         [placeholder]="selectedItems.length ? '' : 'Select subjects...'"
         [(ngModel)]="searchText"
-        (click)="openDropdown($event)"
+        (click)="openDropdown()"
         (input)="filterItems()"
       >
       <button class="toggle-btn" (click)="toggleDropdown()">
-        <i class="fas" [class.fa-chevron-down]="!isOpen" [class.fa-chevron-up]="isOpen"></i>
+        <i class="fas" [class.fa-chevron-down]="!dropDownisOpen" [class.fa-chevron-up]="dropDownisOpen"></i>
       </button>
     </div>
     
-    <div class="dropdown-menu" *ngIf="isOpen">
+    <div class="dropdown-menu" *ngIf="dropDownisOpen">
       <div class="no-results" *ngIf="filteredItems.length === 0">
         No subjects found
       </div>

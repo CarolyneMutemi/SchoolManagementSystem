@@ -15,6 +15,9 @@ import { TeachersComponent } from './components/admin/teachers/teachers.componen
 import { SubjectMultiselectComponent } from './components/admin/teachers/subject-multiselect/subject-multiselect.component';
 import { AdminsComponent } from './components/admin/admins/admins.component';
 import { StudentsComponent } from './components/admin/students/students.component';
+import { ProfileComponent } from './components/admin/profile/profile.component';
+import { TeacherSidebarComponent } from './components/teacher/teacher-sidebar/teacher-sidebar.component';
+import { StudentManagementComponent } from './components/teacher/student-management/student-management.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { StudentsComponent } from './components/admin/students/students.componen
     TeachersComponent,
     SubjectMultiselectComponent,
     AdminsComponent,
-    StudentsComponent
+    StudentsComponent,
+    ProfileComponent,
+    TeacherSidebarComponent,
+    StudentManagementComponent
   ],
   imports: [
     BrowserModule,
