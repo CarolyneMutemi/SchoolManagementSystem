@@ -11,7 +11,7 @@ import { SidebarComponent } from './components/admin/sidebar/sidebar.component';
 export class AppComponent {
   title = 'App';
   @ViewChild(SidebarComponent) sidebar!: SidebarComponent;
-  userRole: string = "teacher";
+  userRole: string = "student";
   
   constructor(private router: Router) {
     // this.userRole = this.authService.getUserRole();

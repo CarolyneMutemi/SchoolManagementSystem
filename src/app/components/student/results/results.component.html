@@ -1,0 +1,131 @@
+<!-- student-results.component.html -->
+<div class="results-container">
+    <div class="header">
+      <h1>Academic Results</h1>
+      <div class="year-selector">
+        <label for="academicYear">Academic Year:</label>
+        <select id="academicYear" [(ngModel)]="selectedYear" (change)="loadResults()">
+          <option *ngFor="let year of academicYears" [value]="year">{{ year }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="terms-container">
+      <div class="term-tabs">
+        <button 
+          *ngFor="let term of terms; let i = index" 
+          [class.active]="selectedTermIndex === i"
+          (click)="selectedTermIndex = i"
+          class="tab-button">
+          {{ term }}
+        </button>
+      </div>
+  
+      <div class="results-card" *ngIf="results && results.length > 0">
+        <div class="student-info">
+          <div class="info-item">
+            <span class="label">Name:</span>
+            <span class="value">{{ studentInfo.name }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Class:</span>
+            <span class="value">{{ studentInfo.class }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Roll No:</span>
+            <span class="value">{{ studentInfo.rollNo }}</span>
+          </div>
+        </div>
+  
+        <div class="results-table-container">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+                <th>Marks</th>
+                <th>Max Marks</th>
+                <th>Percentage</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subject of results[selectedTermIndex]?.subjects">
+                <td>{{ subject.name }}</td>
+                <td>
+                  <span [class]="getGradeClass(subject.grade)">
+                    {{ subject.grade }}
+                  </span>
+                </td>
+                <td>{{ subject.marks }}</td>
+                <td>{{ subject.maxMarks }}</td>
+                <td>{{ (subject.marks / subject.maxMarks * 100).toFixed(2) }}%</td>
+                <td>{{ subject.remarks }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><strong>Total</strong></td>
+                <td>{{ calculateTotal('marks') }}</td>
+                <td>{{ calculateTotal('maxMarks') }}</td>
+                <td>{{ calculatePercentage() }}%</td>
+                <td>{{ getOverallRemarks() }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+  
+        <div class="performance-summary">
+          <div class="summary-header">
+            <h3>Performance Summary</h3>
+          </div>
+          <div class="chart-container">
+            <div class="chart">
+              <!-- Placeholder for chart - you can integrate Chart.js or similar library -->
+              <div class="chart-placeholder">
+                <div 
+                  *ngFor="let subject of results[selectedTermIndex]?.subjects" 
+                  class="bar-chart-item"
+                  [style.height.%]="(subject.marks / subject.maxMarks) * 100"
+                  [title]="subject.name + ': ' + subject.marks + '/' + subject.maxMarks">
+                  <span class="bar-label">{{ subject.name.substring(0, 3) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="attendance-info">
+            <div class="attendance-item">
+              <span class="label">Attendance:</span>
+              <span class="value">{{ results[selectedTermIndex].attendance || '0' }}%</span>
+            </div>
+            <div class="attendance-item">
+              <span class="label">Rank in Class:</span>
+              <span class="value">{{ results[selectedTermIndex].rank || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+  
+        <div class="teacher-comments">
+          <h3>Teacher's Comments</h3>
+          <p>{{ results[selectedTermIndex].teacherComments || 'No comments available for this term.' }}</p>
+        </div>
+  
+        <div class="action-buttons">
+          <button class="btn primary-btn" (click)="downloadResults()">
+            <i class="fas fa-download"></i> Download Report
+          </button>
+          <button class="btn secondary-btn" (click)="printResults()">
+            <i class="fas fa-print"></i> Print
+          </button>
+          <button class="btn info-btn" (click)="compareResults()">
+            <i class="fas fa-chart-line"></i> Compare Terms
+          </button>
+        </div>
+      </div>
+  
+      <div class="no-results" *ngIf="!results || results.length === 0">
+        <i class="fas fa-search"></i>
+        <p>No results available for the selected academic year.</p>
+      </div>
+    </div>
+  </div>

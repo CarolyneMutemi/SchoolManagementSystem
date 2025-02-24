@@ -18,6 +18,9 @@ import { StudentsComponent } from './components/admin/students/students.componen
 import { ProfileComponent } from './components/admin/profile/profile.component';
 import { TeacherSidebarComponent } from './components/teacher/teacher-sidebar/teacher-sidebar.component';
 import { StudentManagementComponent } from './components/teacher/student-management/student-management.component';
+import { GradeManagementComponent } from './components/teacher/grade-management/grade-management.component';
+import { StudentSidebarComponent } from './components/student/student-sidebar/student-sidebar.component';
+import { ResultsComponent } from './components/student/results/results.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { StudentManagementComponent } from './components/teacher/student-managem
     StudentsComponent,
     ProfileComponent,
     TeacherSidebarComponent,
-    StudentManagementComponent
+    StudentManagementComponent,
+    GradeManagementComponent,
+    StudentSidebarComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,

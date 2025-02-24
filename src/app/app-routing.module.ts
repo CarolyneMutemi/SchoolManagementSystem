@@ -11,6 +11,8 @@ import { AdminsComponent } from './components/admin/admins/admins.component';
 import { StudentsComponent } from './components/admin/students/students.component';
 import { ProfileComponent } from './components/admin/profile/profile.component';
 import { StudentManagementComponent } from './components/teacher/student-management/student-management.component';
+import { GradeManagementComponent } from './components/teacher/grade-management/grade-management.component';
+import { ResultsComponent } from './components/student/results/results.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -22,7 +24,9 @@ const routes: Routes = [
   {path: 'admins', component: AdminsComponent},
   {path: 'students', component: StudentsComponent},
   {path: 'profile', component: ProfileComponent},
-  {path: 'my-classes', component: StudentManagementComponent}
+  {path: 'classes', component: StudentManagementComponent},
+  {path: 'grades', component: GradeManagementComponent},
+  {path: 'results', component: ResultsComponent}
 ];
 
 @NgModule({

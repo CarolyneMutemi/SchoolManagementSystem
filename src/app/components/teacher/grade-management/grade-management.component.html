@@ -1,0 +1,215 @@
+<div class="grades-container">
+    <div class="grades-header">
+      <h2>Student Grades Management</h2>
+      <div class="teacher-info">
+        <span>{{ currentTeacher.firstName }} {{ currentTeacher.lastName }}</span>
+        <span class="teacher-role" *ngIf="currentTeacher.isClassTeacher">
+          Class Teacher: {{ currentTeacher.classTeacherOf?.className }} {{ currentTeacher.classTeacherOf?.stream }}
+        </span>
+      </div>
+    </div>
+    
+    <div class="filters-section">
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="classSelect">Class:</label>
+          <select id="classSelect" [(ngModel)]="selectedClass" (change)="onClassChange()">
+            <option *ngFor="let classObj of getAvailableClasses()" [value]="classObj.className">
+              {{ classObj.className }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="streamSelect">Stream:</label>
+          <select id="streamSelect" [(ngModel)]="selectedStream" (change)="onStreamChange()">
+            <option *ngFor="let classObj of getAvailableClasses()" 
+                   [value]="classObj.stream" 
+                   >
+              {{ classObj.stream }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="subjectSelect">Subject:</label>
+          <select id="subjectSelect" [(ngModel)]="selectedSubject" (change)="onSubjectChange()">
+            <option *ngFor="let subject of getAvailableSubjects()" [value]="subject">
+              {{ subject }}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="yearSelect">Year:</label>
+          <select id="yearSelect" [(ngModel)]="selectedYear" (change)="onYearChange()">
+            <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="termSelect">Term:</label>
+          <select id="termSelect" [(ngModel)]="selectedTerm" (change)="onTermChange()">
+            <option *ngFor="let term of availableTerms" [value]="term">{{ term }}</option>
+          </select>
+        </div>
+        
+        <div class="search-group">
+          <input type="text" 
+                 placeholder="Search students..." 
+                 [(ngModel)]="searchTerm" 
+                 (input)="onSearch()"
+                 class="search-input">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        
+        <button class="btn-primary add-grade-btn" (click)="openAddGradeModal()">
+          <i class="fas fa-plus"></i> Add Grade
+        </button>
+      </div>
+    </div>
+    
+    <div class="table-container">
+      <table class="grades-table">
+        <thead>
+          <tr>
+            <th class="student-details-col">Student Details</th>
+            <th class="actions-col">Actions</th>
+            <th *ngFor="let term of availableTerms">{{ term }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of filteredStudents">
+            <td class="student-details-col">
+              <div class="student-name">{{ getStudentFullName(student) }}</div>
+              <div class="student-admission">{{ student.admissionNumber }}</div>
+            </td>
+            <td class="actions-col">
+              <button class="action-btn edit-btn" (click)="openEditGradeModal(student)">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+            <td *ngFor="let term of availableTerms">
+              <div class="grade-cell">
+                {{ getStudentGrade(student, selectedYear, term, selectedSubject) }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Add Grade Modal -->
+    <div class="modal" *ngIf="showAddGradeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add Grade</h3>
+          <button class="close-btn" (click)="closeModals()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="gradeForm" (ngSubmit)="submitGradeForm()">
+            <div class="form-info-section">
+              <div class="form-info-item">
+                <span class="info-label">Class:</span>
+                <span class="info-value">{{ selectedClass }} {{ selectedStream }}</span>
+              </div>
+              <div class="form-info-item">
+                <span class="info-label">Subject:</span>
+                <span class="info-value">{{ selectedSubject }}</span>
+              </div>
+              <div class="form-info-item">
+                <span class="info-label">Year & Term:</span>
+                <span class="info-value">{{ selectedYear }} - {{ selectedTerm }}</span>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="studentSelect">Student:</label>
+              <select id="studentSelect" formControlName="studentId" required>
+                <option value="">Select a student</option>
+                <option *ngFor="let student of filteredStudents" [value]="student.id">
+                  {{ getStudentFullName(student) }} ({{ student.admissionNumber }})
+                </option>
+              </select>
+              <div class="error-message" *ngIf="gradeForm.get('studentId')?.invalid && gradeForm.get('studentId')?.touched">
+                Please select a student
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="gradeInput">Grade:</label>
+              <input type="number" id="gradeInput" formControlName="grade" min="0" max="100" required>
+              <div class="error-message" *ngIf="gradeForm.get('grade')?.invalid && gradeForm.get('grade')?.touched">
+                Please enter a valid grade (0-100)
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" (click)="closeModals()">Cancel</button>
+              <button type="submit" class="btn-primary" [disabled]="gradeForm.invalid">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Edit Grade Modal -->
+    <div class="modal" *ngIf="showEditGradeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Edit Grade</h3>
+          <button class="close-btn" (click)="closeModals()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="gradeForm" (ngSubmit)="submitGradeForm()">
+            <div class="student-info" *ngIf="selectedStudent">
+              <h4>{{ getStudentFullName(selectedStudent) }}</h4>
+              <p>{{ selectedStudent.admissionNumber }}</p>
+            </div>
+            
+            <div class="form-group">
+              <label for="yearSelectEdit">Year:</label>
+              <select id="yearSelectEdit" formControlName="year" required>
+                <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="termSelectEdit">Term:</label>
+              <select id="termSelectEdit" formControlName="term" required>
+                <option *ngFor="let term of availableTerms" [value]="term">{{ term }}</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="subjectSelectEdit">Subject:</label>
+              <select id="subjectSelectEdit" formControlName="subject" required>
+                <option *ngFor="let subject of getAvailableSubjects()" [value]="subject">
+                  {{ subject }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="gradeInputEdit">Grade:</label>
+              <input type="number" id="gradeInputEdit" formControlName="grade" min="0" max="100" required>
+              <div class="error-message" *ngIf="gradeForm.get('grade')?.invalid && gradeForm.get('grade')?.touched">
+                Please enter a valid grade (0-100)
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" (click)="closeModals()">Cancel</button>
+              <button type="submit" class="btn-primary" [disabled]="gradeForm.invalid">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

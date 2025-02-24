@@ -17,24 +17,9 @@
           <span *ngIf="!isCollapsed">Overview</span>
         </a>
         
-        <a [routerLink]="['/reports']" routerLinkActive="active" class="nav-item">
+        <a [routerLink]="['/results']" routerLinkActive="active" class="nav-item">
           <i class="fas fa-chart-bar"></i>
           <span *ngIf="!isCollapsed">Academic Reports</span>
-        </a>
-        
-        <a [routerLink]="['/classes']" routerLinkActive="active" class="nav-item">
-          <i class="fas fa-chalkboard-teacher"></i>
-          <span *ngIf="!isCollapsed">My classes</span>
-        </a>
-        
-        <a [routerLink]="['/grades']" routerLinkActive="active" class="nav-item">
-          <i class="fas fa-clipboard-check"></i>
-          <span *ngIf="!isCollapsed">Grades</span>
-        </a>
-        
-        <a [routerLink]="['/students']" routerLinkActive="active" class="nav-item">
-          <i class="fas fa-user-graduate"></i>
-          <span *ngIf="!isCollapsed">All Students</span>
         </a>
         
         <a [routerLink]="['/profile']" routerLinkActive="active" class="nav-item">
