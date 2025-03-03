@@ -248,16 +248,6 @@ export class StudentManagementComponent implements OnInit {
         }
       });
     }
-  
-    addParentFormGroup(): FormGroup {
-      return this.fb.group({
-        relationship: ['', Validators.required],
-        name: ['', Validators.required],
-        phoneNumber: ['', Validators.required],
-        email: [''],
-        address: ['', Validators.required]
-      });
-    }
 
     closeModals() {
       this.showAddModal = false;

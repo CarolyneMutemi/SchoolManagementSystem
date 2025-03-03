@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-student-sidebar',
   templateUrl: './student-sidebar.component.html',
@@ -10,7 +12,7 @@ export class StudentSidebarComponent {
    @Output() toggleSidebar = new EventEmitter<boolean>();
     isCollapsed = true;
   
-    constructor(private router: Router) {
+    constructor(private router: Router, private authService: AuthService) {
       // Collapse sidebar on navigation
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
@@ -24,5 +26,9 @@ export class StudentSidebarComponent {
       event.stopPropagation(); // Prevent document click from immediately closing
       this.isCollapsed = !this.isCollapsed;
       this.toggleSidebar.emit(this.isCollapsed);
+    }
+
+    logout(){
+      this.authService.logout();
     }
 }

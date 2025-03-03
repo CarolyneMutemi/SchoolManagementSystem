@@ -291,7 +291,7 @@
   background-color: #2d2d2d;
   border-radius: 8px;
   width: 90%;
-  max-width: 800px;
+  max-width: 900px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
@@ -396,6 +396,71 @@
 .parent-info h5 {
   color: #9c27b0;
   margin: 0 0 8px 0;
+}
+
+* Parent Form Styles */
+.parents-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.add-parent-btn {
+  background-color: var(--success);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.parent-form-section {
+  background-color: rgba(61, 61, 61, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.parent-form-section:last-child {
+  margin-bottom: 0;
+}
+
+.parent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.parent-header h4 {
+  margin: 0;
+  color: var(--primary);
+}
+
+.remove-parent-btn {
+  background-color: transparent;
+  color: var(--danger);
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.remove-parent-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Style for required fields */
+.form-group label.required::after {
+  content: "*";
+  color: var(--danger);
+  margin-left: 4px;
 }
 
 /* Responsive Adjustments */
@@ -715,3 +780,21 @@
     gap: 2rem;
     padding: 1.5rem;
   }
+
+  /* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .parents-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .add-parent-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

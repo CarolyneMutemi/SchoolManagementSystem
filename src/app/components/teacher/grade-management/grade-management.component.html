@@ -64,6 +64,10 @@
                  class="search-input">
           <i class="fas fa-search search-icon"></i>
         </div>
+
+        <button class="btn-primary filter-btn" (click)="applyFilters()">
+          <i class="fas fa-filter"></i> Apply Filters
+        </button>        
         
         <button class="btn-primary add-grade-btn" (click)="openAddGradeModal()">
           <i class="fas fa-plus"></i> Add Grade
@@ -122,9 +126,16 @@
                 <span class="info-value">{{ selectedSubject }}</span>
               </div>
               <div class="form-info-item">
-                <span class="info-label">Year & Term:</span>
-                <span class="info-value">{{ selectedYear }} - {{ selectedTerm }}</span>
+                <span class="info-label">Year:</span>
+                <span class="info-value">{{ selectedYear }}</span>
               </div>
+            </div>
+
+            <div class="form-group">
+              <label for="termSelectEdit">Term:</label>
+              <select id="termSelectEdit" formControlName="term" required>
+                <option *ngFor="let term of availableTerms" [value]="term">{{ term }}</option>
+              </select>
             </div>
             
             <div class="form-group">
@@ -171,14 +182,17 @@
             <div class="student-info" *ngIf="selectedStudent">
               <h4>{{ getStudentFullName(selectedStudent) }}</h4>
               <p>{{ selectedStudent.admissionNumber }}</p>
+              <p>{{ selectedClass }} {{ selectedStream }}</p>
+              <p>{{ selectedSubject }}</p>
+              <p>{{ selectedYear }}</p>
             </div>
             
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="yearSelectEdit">Year:</label>
               <select id="yearSelectEdit" formControlName="year" required>
                 <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
               </select>
-            </div>
+            </div> -->
             
             <div class="form-group">
               <label for="termSelectEdit">Term:</label>
@@ -187,14 +201,14 @@
               </select>
             </div>
             
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="subjectSelectEdit">Subject:</label>
               <select id="subjectSelectEdit" formControlName="subject" required>
                 <option *ngFor="let subject of getAvailableSubjects()" [value]="subject">
                   {{ subject }}
                 </option>
               </select>
-            </div>
+            </div> -->
             
             <div class="form-group">
               <label for="gradeInputEdit">Grade:</label>
@@ -212,4 +226,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>

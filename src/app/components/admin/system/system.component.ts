@@ -1,186 +1,8 @@
-// import { Component } from '@angular/core';
-
-// interface Grade {
-//   letter: string;
-//   minScore: number;
-//   maxScore: number;
-//   points: number;
-// }
-
-// @Component({
-//   selector: 'app-system',
-//   templateUrl: './system.component.html',
-//   styleUrls: ['./system.component.css']
-// })
-// export class SystemComponent {
-//   tabs = [
-//     { key: 'grades', label: 'Grades', icon: 'fas fa-graduation-cap' },
-//     { key: 'subjects', label: 'Subjects', icon: 'fas fa-book' },
-//     { key: 'forms', label: 'Forms', icon: 'fas fa-layer-group' },
-//     { key: 'streams', label: 'Streams', icon: 'fas fa-stream' }
-//   ];
-//   activeTab: string = 'grades';
-
-//   // Data arrays
-//   grades: Grade[] = [
-//     { letter: 'A', minScore: 80, maxScore: 100, points: 12 },
-//     { letter: 'A-', minScore: 75, maxScore: 79, points: 11 }
-//   ];
-//   subjects: string[] = ['Mathematics', 'English', 'Physics'];
-//   forms: string[] = ['Form 1', 'Form 2', 'Form 3', 'Form 4'];
-//   streams: string[] = ['East', 'West'];
-
-//   // Modal controls for Grade
-//   showGradeModal = false;
-//   gradeModal: Grade = { letter: '', minScore: 0, maxScore: 0, points: 0 };
-//   gradeEditIndex: number = -1;
-
-//   // Modal controls for Subject
-//   showSubjectModal = false;
-//   subjectModal: string = '';
-//   subjectEditIndex: number = -1;
-
-//   // Modal controls for Form
-//   showFormModal = false;
-//   formModal: string = '';
-//   formEditIndex: number = -1;
-
-//   // Modal controls for Stream
-//   showStreamModal = false;
-//   streamModal: string = '';
-//   streamEditIndex: number = -1;
-
-//   // Grade Modal functions
-//   openGradeModal(grade?: Grade, index?: number): void {
-//     if (grade && index !== undefined) {
-//       this.gradeModal = { ...grade };
-//       this.gradeEditIndex = index;
-//     } else {
-//       this.gradeModal = { letter: '', minScore: 0, maxScore: 0, points: 0 };
-//       this.gradeEditIndex = -1;
-//     }
-//     this.showGradeModal = true;
-//   }
-//   closeGradeModal(): void {
-//     this.showGradeModal = false;
-//   }
-//   saveGradeModal(): void {
-//     if (this.gradeEditIndex >= 0) {
-//       this.grades[this.gradeEditIndex] = { ...this.gradeModal };
-//     } else {
-//       this.grades.push({ ...this.gradeModal });
-//     }
-//     this.closeGradeModal();
-//   }
-//   deleteGrade(index: number): void {
-//     this.grades.splice(index, 1);
-//   }
-
-//   // Subject Modal functions
-//   openSubjectModal(subject?: string, index?: number): void {
-//     if (subject !== undefined && index !== undefined) {
-//       this.subjectModal = subject;
-//       this.subjectEditIndex = index;
-//     } else {
-//       this.subjectModal = '';
-//       this.subjectEditIndex = -1;
-//     }
-//     this.showSubjectModal = true;
-//   }
-//   closeSubjectModal(): void {
-//     this.showSubjectModal = false;
-//   }
-//   saveSubjectModal(): void {
-//     if (this.subjectEditIndex >= 0) {
-//       this.subjects[this.subjectEditIndex] = this.subjectModal;
-//     } else {
-//       this.subjects.push(this.subjectModal);
-//     }
-//     this.closeSubjectModal();
-//   }
-//   deleteSubject(index: number): void {
-//     this.subjects.splice(index, 1);
-//   }
-
-//   // Form Modal functions
-//   openFormModal(form?: string, index?: number): void {
-//     if (form !== undefined && index !== undefined) {
-//       this.formModal = form;
-//       this.formEditIndex = index;
-//     } else {
-//       this.formModal = '';
-//       this.formEditIndex = -1;
-//     }
-//     this.showFormModal = true;
-//   }
-//   closeFormModal(): void {
-//     this.showFormModal = false;
-//   }
-//   saveFormModal(): void {
-//     if (this.formEditIndex >= 0) {
-//       this.forms[this.formEditIndex] = this.formModal;
-//     } else {
-//       this.forms.push(this.formModal);
-//     }
-//     this.closeFormModal();
-//   }
-//   deleteForm(index: number): void {
-//     this.forms.splice(index, 1);
-//   }
-
-//   // Stream Modal functions
-//   openStreamModal(stream?: string, index?: number): void {
-//     if (stream !== undefined && index !== undefined) {
-//       this.streamModal = stream;
-//       this.streamEditIndex = index;
-//     } else {
-//       this.streamModal = '';
-//       this.streamEditIndex = -1;
-//     }
-//     this.showStreamModal = true;
-//   }
-//   closeStreamModal(): void {
-//     this.showStreamModal = false;
-//   }
-//   saveStreamModal(): void {
-//     if (this.streamEditIndex >= 0) {
-//       this.streams[this.streamEditIndex] = this.streamModal;
-//     } else {
-//       this.streams.push(this.streamModal);
-//     }
-//     this.closeStreamModal();
-//   }
-//   deleteStream(index: number): void {
-//     this.streams.splice(index, 1);
-//   }
-// }
-
-// system-config.component.ts
 import { Component, OnInit } from '@angular/core';
 
-interface Grade {
-  id: number;
-  letter: string;
-  minScore: number;
-  maxScore: number;
-}
+import { SystemConfigService } from 'src/app/services/admin/system-config.service';
+import { Grade, Subject, Form, Stream } from 'src/app/interfaces/system-config';
 
-interface Subject {
-  id: number;
-  name: string;
-  code: string;
-}
-
-interface Form {
-  id: number;
-  name: string;
-  level: number;
-}
-
-interface Stream {
-  id: number;
-  name: string;
-}
 
 @Component({
   selector: 'app-system',
@@ -198,27 +20,28 @@ export class SystemComponent implements OnInit {
   modalTitle = '';
   currentItem: any = {};
 
+  constructor(private systemConfigService: SystemConfigService) {}
+
   ngOnInit() {
-    // Initialize with sample data
-    this.grades = [
-      { id: 1, letter: 'A', minScore: 80, maxScore: 100 },
-      { id: 2, letter: 'B', minScore: 70, maxScore: 79 },
-    ];
+    this.systemConfigService.getGrades().subscribe((grades: Grade[]) => {
+      this.grades = grades;
+    });
 
-    this.subjects = [
-      { id: 1, name: 'Mathematics', code: 'MATH' },
-      { id: 2, name: 'English', code: 'ENG' },
-    ];
+    this.systemConfigService.getSubjects().subscribe((subjects: Subject[]) => {
+      this.subjects = subjects;
+    });
 
-    this.forms = [
-      { id: 1, name: 'Form One', level: 1 },
-      { id: 2, name: 'Form Two', level: 2 },
-    ];
+    this.systemConfigService.getForms().subscribe((forms: Form[]) => {
+      this.forms = forms;
+    });
 
-    this.streams = [
-      { id: 1, name: 'East' },
-      { id: 2, name: 'West' },
-    ];
+    this.systemConfigService.getStreams().subscribe((streams: Stream[]) => {
+      const capitalizedStreams = streams.map(stream => {
+        stream.name = stream.name.charAt(0).toUpperCase() + stream.name.slice(1);
+        return stream;
+      });
+      this.streams = capitalizedStreams;
+    });
   }
 
   openModal(type: string) {
@@ -271,42 +94,149 @@ export class SystemComponent implements OnInit {
   }
 
   deleteGrade(grade: Grade) {
-    this.grades = this.grades.filter(g => g.id !== grade.id);
+    this.systemConfigService.deleteGrade(grade).subscribe(
+      () => {
+        this.grades = this.grades.filter(g => g._id !== grade._id);
+      },
+      (error) => {
+        console.error('Error deleting grade:', error);
+        alert('Grade has students. Cannot delete');
+      }
+    );
   }
 
   deleteSubject(subject: Subject) {
-    this.subjects = this.subjects.filter(s => s.id !== subject.id);
+    this.systemConfigService.deleteSubject(subject).subscribe(
+      () => {
+        this.subjects = this.subjects.filter(s => s._id !== subject._id);
+      },
+      (error) => {
+        console.error('Error deleting subject:', error);
+        alert('Subject has students. Cannot delete');
+      }
+    );
   }
 
   deleteForm(form: Form) {
-    this.forms = this.forms.filter(f => f.id !== form.id);
+    this.systemConfigService.deleteForm(form).subscribe(
+      () => {
+        this.forms = this.forms.filter(f => f._id !== form._id);
+      },
+      (error) => {
+        console.error('Error deleting form:', error);
+        alert('Form has students. Cannot delete');
+      }
+    );
   }
 
   deleteStream(stream: Stream) {
-    this.streams = this.streams.filter(s => s.id !== stream.id);
+    this.systemConfigService.deleteStream(stream).subscribe(
+      () => {
+        this.streams = this.streams.filter(s => s._id !== stream._id);
+      },
+      (error) => {
+        console.error('Error deleting stream:', error);
+        alert('Stream has students. Cannot delete');
+      }
+    );
   }
 
   submitForm() {
-    if (this.currentItem.id) {
+    if (this.currentItem._id) {
       switch(this.modalType) {
         case 'grade':
-          this.grades = this.grades.map(g => g.id === this.currentItem.id ? this.currentItem : g);
+          const grade = this.currentItem;
+          this.systemConfigService.editGrade(grade).subscribe(
+            (grade) => {
+              console.log('Grade updated:', grade);
+              this.grades = this.grades.map(g => g._id === grade._id ? grade : g);
+            }
+          );
           break;
         case 'subject':
-          this.subjects = this.subjects.map(s => s.id === this.currentItem.id ? this.currentItem : s);
+          const subject = this.currentItem;
+          this.systemConfigService.editSubject(subject).subscribe(
+            (subject) => {
+              console.log('Subject updated:', subject);
+              this.subjects = this.subjects.map(s => s._id === subject._id ? subject : s);
+            }
+          );
           break;
         case 'form':
-          this.forms = this.forms.map(f => f.id === this.currentItem.id ? this.currentItem : f);
+          const form = this.currentItem;
+          this.systemConfigService.editForm(form).subscribe(
+            (form) => {
+              console.log('Form updated:', form);
+              this.forms = this.forms.map(f => f._id === form._id ? form : f);
+            }
+          );
           break;
         case 'stream':
-          this.streams = this.streams.map(s => s.id === this.currentItem.id ? this.currentItem : s);
+          const stream = this.currentItem;
+          this.systemConfigService.editStream(stream).subscribe(
+            (stream) => {
+              console.log('Stream updated:', stream);
+              this.streams = this.streams.map(s => s._id === stream._id ? stream : s);
+            }
+    );
           break;
       }
     } else {
-      // const id = this[`${this.modalType}s`].length + 1;
-      // this.currentItem.id = id;
-      // this[`${this.modalType}s`].push(this.currentItem);
-      console.log('Current item:', this.currentItem);
+      switch(this.modalType) {
+        case 'grade':
+          const grade = this.currentItem;
+          console.log('Grade:', grade);
+          this.systemConfigService.addGrade(grade).subscribe(
+            (grade) => {
+              console.log('Grade added:', grade);
+              this.grades.push(grade);
+            },
+            (error) => {
+              console.error('Error adding grade:', error)
+              alert('Grade already exists');
+            }
+          );
+          break;
+        case 'subject':
+          const subject = this.currentItem;
+          this.systemConfigService.addSubject(subject).subscribe(
+            (subject) => {
+              console.log('Subject added:', subject);
+              this.subjects.push(subject);
+            },
+            (error) => {
+              console.error('Error adding subject:', error)
+              alert('Subject already exists');
+            }
+          );
+          break;
+        case 'form':
+          const form = this.currentItem;
+          this.systemConfigService.addForm(form).subscribe(
+            (form) => {
+              console.log('Form added:', form);
+              this.forms.push(form);
+            },
+            (error) => {
+              console.error('Error adding form:', error)
+              alert('Form already exists');
+            }
+          );
+          break;
+        case 'stream':
+          const stream = this.currentItem;
+          this.systemConfigService.addStream(stream).subscribe(
+            (stream) => {
+              console.log('Stream added:', stream);
+              this.streams.push(stream);
+            },
+            (error) => {
+              console.error('Error adding stream:', error)
+              alert('Stream already exists');
+            }
+          );
+          break;
+      }
     }
 
     this.showModal = false;

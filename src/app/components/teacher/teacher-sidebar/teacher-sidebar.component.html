@@ -41,6 +41,11 @@
           <i class="fas fa-user-circle"></i>
           <span *ngIf="!isCollapsed">Personal Profile</span>
         </a>
+
+        <a (click)="logout()" class="nav-item">
+          <i class="fas fa-right-from-bracket"></i>
+          <span *ngIf="!isCollapsed">Personal Profile</span>
+        </a>
       </nav>
     </div>
   </div>

@@ -24,7 +24,7 @@
             <tbody>
               <tr *ngFor="let grade of grades">
                 <td>{{ grade.letter }}</td>
-                <td>{{ grade.minScore }} - {{ grade.maxScore }}</td>
+                <td>{{ grade.min_score }} - {{ grade.max_score }}</td>
                 <td class="actions">
                   <button class="icon-btn" (click)="editGrade(grade)">
                     <i class="fas fa-edit"></i>
@@ -94,7 +94,7 @@
             <tbody>
               <tr *ngFor="let form of forms">
                 <td>{{ form.level }}</td>
-                <td>{{ form.name }}</td>
+                <td>form {{form.level}}</td>
                 <td class="actions">
                   <button class="icon-btn" (click)="editForm(form)">
                     <i class="fas fa-edit"></i>
@@ -156,55 +156,79 @@
       
       <div class="modal-body">
         <!-- Grade Form -->
-        <form *ngIf="modalType === 'grade'" (ngSubmit)="submitForm()">
+        <form *ngIf="modalType === 'grade'" #gradeForm="ngForm" (ngSubmit)="gradeForm.valid && submitForm()">
           <div class="form-group">
             <label>Grade Letter</label>
-            <input type="text" [(ngModel)]="currentItem.letter" name="letter" required>
+            <input type="text" [(ngModel)]="currentItem.letter" #letter="ngModel" name="letter" required>
+            <div class="error" *ngIf="letter.invalid && (letter.dirty || letter.touched || gradeForm.submitted)">
+              Grade Letter is required.
+            </div>
           </div>
           <div class="form-group">
             <label>Minimum Score</label>
-            <input type="number" [(ngModel)]="currentItem.minScore" name="minScore" required>
+            <input type="number" [(ngModel)]="currentItem.min_score" #minScore="ngModel" name="min_score" required>
+            <div class="error" *ngIf="minScore.invalid && (minScore.dirty || minScore.touched || gradeForm.submitted)">
+              Minimum Score is required.
+            </div>
           </div>
           <div class="form-group">
             <label>Maximum Score</label>
-            <input type="number" [(ngModel)]="currentItem.maxScore" name="maxScore" required>
+            <input type="number" [(ngModel)]="currentItem.max_score" #maxScore="ngModel" name="max_score" required>
+            <div class="error" *ngIf="maxScore.invalid && (maxScore.dirty || maxScore.touched || gradeForm.submitted)">
+              Maximum Score is required.
+            </div>
           </div>
-          <button type="submit" class="submit-btn">Save Grade</button>
+          <button type="submit" [disabled]="!gradeForm.valid" class="submit-btn">Save Grade</button>
         </form>
 
         <!-- Subject Form -->
-        <form *ngIf="modalType === 'subject'" (ngSubmit)="submitForm()">
+        <form *ngIf="modalType === 'subject'" #subjectForm="ngForm" (ngSubmit)="subjectForm.valid && submitForm()">
           <div class="form-group">
             <label>Subject Code</label>
-            <input type="text" [(ngModel)]="currentItem.code" name="code" required>
+            <input type="text" [(ngModel)]="currentItem.code" #code="ngModel" name="code" required>
+            <div class="error" *ngIf="code.invalid && (code.dirty || code.touched || subjectForm.submitted)">
+              Subject Code is required.
+            </div>
           </div>
           <div class="form-group">
             <label>Subject Name</label>
-            <input type="text" [(ngModel)]="currentItem.name" name="name" required>
+            <input type="text" [(ngModel)]="currentItem.name" #name="ngModel" name="name" required>
+            <div class="error" *ngIf="name.invalid && (name.dirty || name.touched || subjectForm.submitted)">
+              Subject Name is required.
+            </div>
           </div>
-          <button type="submit" class="submit-btn">Save Subject</button>
+          <button type="submit" [disabled]="!subjectForm.valid" class="submit-btn">Save Subject</button>
         </form>
 
-        <!-- Form Form -->
-        <form *ngIf="modalType === 'form'" (ngSubmit)="submitForm()">
+        <!-- Form Level Form -->
+        <form *ngIf="modalType === 'form'" #formLevelForm="ngForm" (ngSubmit)="formLevelForm.valid && submitForm()">
           <div class="form-group">
             <label>Form Level</label>
-            <input type="number" [(ngModel)]="currentItem.level" name="level" min="1" max="4" required>
+            <input type="number" [(ngModel)]="currentItem.level" #level="ngModel" name="level" min="1" max="4" required>
+            <div class="error" *ngIf="level.invalid && (level.dirty || level.touched || formLevelForm.submitted)">
+              Form Level is required and must be between 1 and 4.
+            </div>
           </div>
           <div class="form-group">
             <label>Form Name</label>
-            <input type="text" [(ngModel)]="currentItem.name" name="name" required>
+            <input type="text" [(ngModel)]="currentItem.name" #formName="ngModel" name="name" required>
+            <div class="error" *ngIf="formName.invalid && (formName.dirty || formName.touched || formLevelForm.submitted)">
+              Form Name is required.
+            </div>
           </div>
-          <button type="submit" class="submit-btn">Save Form</button>
+          <button type="submit" [disabled]="!formLevelForm.valid" class="submit-btn">Save Form</button>
         </form>
 
         <!-- Stream Form -->
-        <form *ngIf="modalType === 'stream'" (ngSubmit)="submitForm()">
+        <form *ngIf="modalType === 'stream'" #streamForm="ngForm" (ngSubmit)="streamForm.valid && submitForm()">
           <div class="form-group">
             <label>Stream Name</label>
-            <input type="text" [(ngModel)]="currentItem.name" name="name" required>
+            <input type="text" [(ngModel)]="currentItem.name" #streamName="ngModel" name="name" required>
+            <div class="error" *ngIf="streamName.invalid && (streamName.dirty || streamName.touched || streamForm.submitted)">
+              Stream Name is required.
+            </div>
           </div>
-          <button type="submit" class="submit-btn">Save Stream</button>
+          <button type="submit" [disabled]="!streamForm.valid" class="submit-btn">Save Stream</button>
         </form>
       </div>
     </div>

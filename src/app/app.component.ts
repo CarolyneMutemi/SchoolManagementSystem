@@ -1,21 +1,38 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
 
 import { SidebarComponent } from './components/admin/sidebar/sidebar.component';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'App';
   @ViewChild(SidebarComponent) sidebar!: SidebarComponent;
-  userRole: string = "student";
+  userRole: string = '';
+  access_token: string | null = localStorage.getItem('access_token');
   
-  constructor(private router: Router) {
-    // this.userRole = this.authService.getUserRole();
+  
+  constructor(private router: Router, private authService: AuthService) {
   }
+
+  ngOnInit(): void {
+    this.authService.role$.subscribe(role => {
+      console.log("App component - User role: ", role);
+      this.userRole = role;
+    });
+
+    if (this.authService.userAuthenticated()) {
+      console.log("App component init.")
+      this.authService.fetchUserProfile().subscribe();
+    }
+  }
+
+  
 
   sidebarCollapsed = true;
   isMobile = window.innerWidth <= 768;

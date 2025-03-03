@@ -2,6 +2,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-teacher-sidebar',
   templateUrl: './teacher-sidebar.component.html',
@@ -11,7 +13,7 @@ export class TeacherSidebarComponent {
   @Output() toggleSidebar = new EventEmitter<boolean>();
   isCollapsed = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     // Collapse sidebar on navigation
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -25,5 +27,11 @@ export class TeacherSidebarComponent {
     event.stopPropagation(); // Prevent document click from immediately closing
     this.isCollapsed = !this.isCollapsed;
     this.toggleSidebar.emit(this.isCollapsed);
+  }
+
+  logout(){
+    console.log("Logging out user - in component.");
+    this.authService.logout();
+    console.log("User logged out");
   }
 }
