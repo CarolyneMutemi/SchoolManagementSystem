@@ -63,7 +63,7 @@ export class TeachersComponent implements OnInit {
     this.loadTeachers();
 
     this.systemConfigService.getSubjects().subscribe((subjects: Subject[]) => {
-      this.subjects = subjects.map(subject => subject.name);
+      this.subjects = subjects.map(subject => subject.code);
       this.subject_objects = subjects
     });
 
@@ -225,6 +225,7 @@ export class TeachersComponent implements OnInit {
       this.teacherForm.reset();
       this.classes_taught.clear();
       this.addTeachingAssignment(); // Add one empty assignment by default
+      this.markFormGroupTouched(this.teacherForm);
     }
     this.showModal = true;
   }
@@ -239,15 +240,31 @@ export class TeachersComponent implements OnInit {
   saveTeacher() {
     if (this.teacherForm.valid) {
       const teacherData = this.teacherForm.value;
+      const { is_class_teacher, ...teacher} = teacherData;
       if (this.editingTeacher) {
-        console.log("Edited teacher data: ", teacherData);
-        const index = this.teachers.findIndex(t => t._id === this.editingTeacher!._id);
-        this.teachers[index] = { ...this.editingTeacher, ...teacherData };
+        console.log("Edited teacher data: ", teacher);
+        const {_id, ...teacherObject} = teacher;
+        this.teachersService.updateTeacher(this.editingTeacher._id, teacherObject).subscribe({
+          next: (updatedTeacher: Teacher) => {
+            const index = this.teachers.findIndex(t => t._id === updatedTeacher._id);
+            this.teachers[index] = updatedTeacher;
+          },
+          error: (error) => {
+            console.error('Error updating teacher: ', error);
+            alert('Error updating teacher. Please try again.');
+          }
+        });
       } else {
-        console.log("Teacher data: ", teacherData);
-        this.teachers.push({
-          id: this.teachers.length + 1,
-          ...teacherData
+        console.log("Teacher data: ", teacher);
+        // this.teachers.push({...teacher });
+        this.teachersService.addTeacher(teacher).subscribe({
+          next: (teacher: Teacher) => {
+            this.teachers.push(teacher);
+          },
+          error: (error) => {
+            console.error('Error adding teacher: ', error);
+            alert('Error adding teacher. Please try again.');
+          }
         });
       }
       this.closeModal();

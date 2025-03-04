@@ -1,7 +1,10 @@
 export interface Admin {
-  id: string;  // National ID
-  firstName: string;
-  lastName: string;
+  _id?: string;
+  national_id: number;
+  first_name: string;
+  last_name: string;
   email: string;
-  phoneNumber: string;
+  phone_number: string;
+  role: string;
+  enrollment_date: string;
 }

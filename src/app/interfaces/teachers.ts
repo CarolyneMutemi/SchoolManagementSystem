@@ -16,6 +16,7 @@ export interface Teacher {
   email: string;
   national_id: string;
   phone_number: string;
+  enrollment_date: string;
   qualified_subjects: string[];
   classes_taught: TeachingAssignment[];
   is_class_teacher: boolean;

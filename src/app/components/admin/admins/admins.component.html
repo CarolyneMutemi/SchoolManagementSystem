@@ -12,24 +12,36 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th>Admin Info</th>
+            <th>Contact</th>
+            <th>Role</th>
+            <th>Enrollment Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let admin of admins">
-            <td>{{admin.id}}</td>
-            <td>{{admin.firstName}} {{admin.lastName}}</td>
-            <td>{{admin.email}}</td>
-            <td>{{admin.phoneNumber}}</td>
+            <td>
+              <div class="admin-info">
+                <div class="admin-name">{{admin.first_name}} {{admin.last_name}}</div>
+                <div class="admin-id">
+                <div><i class="fas fa-id-card"></i> {{admin.national_id}}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="contact-info">
+                <div><i class="fas fa-envelope"></i> {{admin.email}}</div>
+                <div><i class="fas fa-phone"></i> {{admin.phone_number}}</div>
+              </div>
+            </td>
+            <td>{{admin.role}}</td>
+            <td><i class="fas fa-calendar-day"></i> {{admin.enrollment_date}}</td>
             <td class="actions">
               <button class="edit-btn" (click)="openEditModal(admin)">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="delete-btn" (click)="deleteAdmin(admin.id)">
+              <button class="delete-btn" (click)="admin._id && deleteAdmin(admin._id)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -43,20 +55,22 @@
       <div class="admin-card" *ngFor="let admin of admins">
         <div class="card-content">
           <div class="card-header">
-            <h3>{{admin.firstName}} {{admin.lastName}}</h3>
+            <h3>{{admin.first_name}} {{admin.last_name}}</h3>
             <div class="card-actions">
               <button class="edit-btn" (click)="openEditModal(admin)">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="delete-btn" (click)="deleteAdmin(admin.id)">
+              <button class="delete-btn" (click)="admin._id && deleteAdmin(admin._id)">
                 <i class="fas fa-trash"></i>
               </button>
             </div>
           </div>
           <div class="card-details">
-            <p><strong>ID:</strong> {{admin.id}}</p>
-            <p><strong>Email:</strong> {{admin.email}}</p>
-            <p><strong>Phone:</strong> {{admin.phoneNumber}}</p>
+            <p><strong><i class="fas fa-id-card"></i></strong> {{admin.national_id}}</p>
+            <p><strong><i class="fas fa-envelope"></i></strong> {{admin.email}}</p>
+            <p><strong><i class="fas fa-phone"></i></strong> {{admin.phone_number}}</p>
+            <p><strong><i class="fas fa-user-tie"></i></strong> {{admin.role}}</p>
+            <p><strong><i class="fas fa-calendar-day"></i></strong> {{admin.enrollment_date}}</p>
           </div>
         </div>
       </div>
@@ -68,30 +82,30 @@
         <h2>{{isEditing ? 'Edit' : 'Add'}} Administrator</h2>
         <form #adminForm="ngForm" (ngSubmit)="saveAdmin(currentAdmin!)">
           <div class="form-group">
-            <label for="nationalId">National ID</label>
+            <label for="national_id">National ID</label>
             <input 
               type="text" 
-              id="nationalId" 
-              name="nationalId"
-              [(ngModel)]="currentAdmin!.id"
+              id="national_id" 
+              name="national_id"
+              [(ngModel)]="currentAdmin!.national_id"
               required>
           </div>
           <div class="form-group">
-            <label for="firstName">First Name</label>
+            <label for="first_name">First Name</label>
             <input 
               type="text" 
-              id="firstName" 
-              name="firstName"
-              [(ngModel)]="currentAdmin!.firstName"
+              id="first_name" 
+              name="first_name"
+              [(ngModel)]="currentAdmin!.first_name"
               required>
           </div>
           <div class="form-group">
-            <label for="lastName">Last Name</label>
+            <label for="last_name">Last Name</label>
             <input 
               type="text" 
-              id="lastName" 
-              name="lastName"
-              [(ngModel)]="currentAdmin!.lastName"
+              id="last_name" 
+              name="last_name"
+              [(ngModel)]="currentAdmin!.last_name"
               required>
           </div>
           <div class="form-group">
@@ -109,8 +123,28 @@
               type="tel" 
               id="phone" 
               name="phone"
-              [(ngModel)]="currentAdmin!.phoneNumber"
+              [(ngModel)]="currentAdmin!.phone_number"
               required>
+          </div>
+          <div class="form-group">
+            <label for="enrollment_date">Enrollment Date</label>
+            <input 
+              type="date" 
+              id="enrollment_date" 
+              name="enrollment_date"
+              [(ngModel)]="currentAdmin!.enrollment_date"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select 
+              id="role" 
+              name="role"
+              [(ngModel)]="currentAdmin!.role"
+              required>
+              <option value="admin">Admin</option>
+              <option value="super_admin">Super Admin</option>
+            </select>
           </div>
           <div class="modal-actions">
             <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>

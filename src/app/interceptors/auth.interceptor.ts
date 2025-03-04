@@ -61,6 +61,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }),
         catchError((err) => {
           // Logout user if refresh fails
+          console.log("Oops! Caught an error: ", err);
           this.authService.logout();
           return throwError(() => err);
         }),

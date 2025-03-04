@@ -13,11 +13,14 @@ export class AdminsComponent implements OnInit {
   showModal = false;
   isEditing = false;
   newAdmin: Admin = {
-    id: '',
-    firstName: '',
-    lastName: '',
+    _id: '',
+    national_id: 0,
+    first_name: '',
+    last_name: '',
     email: '',
-    phoneNumber: ''
+    phone_number: '',
+    role: '',
+    enrollment_date: ''
   };
   currentAdmin: Admin = this.newAdmin;
 
@@ -25,18 +28,22 @@ export class AdminsComponent implements OnInit {
     // Sample data - replace with actual API call
     this.admins = [
       {
-        id: "12345678",
-        firstName: "John",
-        lastName: "Doe",
+        national_id: 12345678,
+        first_name: "John",
+        last_name: "Doe",
         email: "john@school.com",
-        phoneNumber: "1234567890"
+        phone_number: "1234567890",
+        enrollment_date: "2021-01-01",
+        role: "Principal"
       },
       {
-        id: "87654321",
-        firstName: "Jane",
-        lastName: "Doe",
+        national_id: 87654321,
+        first_name: "Jane",
+        last_name: "Doe",
         email: "jane@school.com",
-        phoneNumber: "0987654321"
+        phone_number: "0987654321",
+        enrollment_date: "2021-01-01",
+        role: "Vice Principal"
       }
     ];
   }
@@ -62,7 +69,7 @@ export class AdminsComponent implements OnInit {
 
   saveAdmin(admin: Admin): void {
     if (this.isEditing) {
-      const index = this.admins.findIndex(a => a.id === admin.id);
+      const index = this.admins.findIndex(a => a._id === admin._id);
       if (index !== -1) {
         this.admins[index] = admin;
       }
@@ -74,7 +81,7 @@ export class AdminsComponent implements OnInit {
 
   deleteAdmin(id: string): void {
     if (confirm('Are you sure you want to delete this admin?')) {
-      this.admins = this.admins.filter(admin => admin.id !== id);
+      this.admins = this.admins.filter(admin => admin._id !== id);
     }
   }
 }

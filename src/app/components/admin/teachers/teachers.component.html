@@ -34,6 +34,7 @@
         <th>Qualified Subjects</th>
         <th>Teaching Assignments</th>
         <th>Class Teacher</th>
+        <th>Enrollment date</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -80,6 +81,7 @@
             </span>
           </span>
         </td>
+        <td><i class="fas fa-calendar-day"></i> {{teacher.enrollment_date}}</td>
         <td class="actions">
           <button class="btn-icon" (click)="openModal(teacher)" title="Edit">
             <i class="fas fa-edit"></i>
