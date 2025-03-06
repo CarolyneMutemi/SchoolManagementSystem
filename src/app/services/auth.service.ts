@@ -11,7 +11,7 @@ import { DecodedToken } from '../interfaces/auth';
   providedIn: 'root'
 })
 export class AuthService {
-  apiURL = 'http://localhost:8000';
+  private apiURL = 'http://localhost:8000';
   private userSubject = new BehaviorSubject<any>(null);
   currentUser = this.userSubject.asObservable();
 

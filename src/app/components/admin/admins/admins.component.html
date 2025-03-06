@@ -137,14 +137,20 @@
           </div>
           <div class="form-group">
             <label for="role">Role</label>
-            <select 
+            <!-- <select 
               id="role" 
               name="role"
               [(ngModel)]="currentAdmin!.role"
               required>
               <option value="admin">Admin</option>
               <option value="super_admin">Super Admin</option>
-            </select>
+            </select> -->
+            <input 
+              type="text" 
+              id="role" 
+              name="role"
+              [(ngModel)]="currentAdmin!.role"
+              required>
           </div>
           <div class="modal-actions">
             <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
